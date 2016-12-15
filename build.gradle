@@ -10,7 +10,10 @@
 
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
+apply plugin: 'maven-publish'
 
+group = 'com.flexisaf.sdk.paystack'
+version = '1.1.0'
 // In this section you declare where to find the dependencies of your project
 repositories {
     // Use 'jcenter' for resolving your dependencies.
@@ -75,3 +78,25 @@ task vscode(dependsOn: vscodeJavaconfigFile) {
     description 'Generates config files for the Visual Studio Code java plugin'
     group 'vscode'
 }
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId "com.flexisaf.sdk.paystack"
+            artifactId "fspaystack"
+            version "1.1.0"
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            // change to point to your repo, e.g. http://my.org/repo
+            url "$buildDir/repo"
+        }
+    }
+
+}
+
+
+task travisBuild(dependsOn: ['clean', 'test','build', 'publish']) {}
