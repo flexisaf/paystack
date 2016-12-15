@@ -7,7 +7,6 @@
  * user guide available at https://docs.gradle.org/2.10/userguide/tutorial_java_projects.html
  */
 
-
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
 apply plugin: 'maven-publish'
@@ -19,6 +18,8 @@ repositories {
     // Use 'jcenter' for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
+    mavenLocal()
+    mavenCentral()
 }
 
 // In this section you declare the dependencies for your production and test code
@@ -47,7 +48,7 @@ task vscodeClasspathFile {
     ext.destFile = file("$buildDir/classpath.txt")
     outputs.file destFile
     doLast {
-        def classpathString = configurations.compile.collect{ it.absolutePath }.join(File.pathSeparator)
+        def classpathString = configurations.compile.collect { it.absolutePath }.join(File.pathSeparator)
         if (!destFile.parentFile.exists()) {
             destFile.parentFile.mkdirs()
         }
@@ -64,9 +65,9 @@ task vscodeJavaconfigFile(dependsOn: vscodeClasspathFile) {
     }
     ext.destFile = file("javaconfig.json")
     ext.config = [
-        sourcePath: sourceSets.collect{ it.java.srcDirs }.flatten().collect{ relativePath(it) },
-        classPathFile: relativePath(tasks.getByPath('vscodeClasspathFile').outputs.files.singleFile),
-        outputDirectory: relativePath(new File(buildDir, 'vscode-classes'))
+            sourcePath     : sourceSets.collect { it.java.srcDirs }.flatten().collect { relativePath(it) },
+            classPathFile  : relativePath(tasks.getByPath('vscodeClasspathFile').outputs.files.singleFile),
+            outputDirectory: relativePath(new File(buildDir, 'vscode-classes'))
     ]
     doLast {
         def jsonContent = groovy.json.JsonOutput.toJson(ext.config)
@@ -83,7 +84,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             groupId "com.flexisaf.sdk.paystack"
-            artifactId "fspaystack"
+            artifactId "paystack"
             version "1.1.0"
             from components.java
         }
@@ -91,12 +92,11 @@ publishing {
 
     repositories {
         maven {
-            // change to point to your repo, e.g. http://my.org/repo
-            url "$buildDir/repo"
+            url 'https://svn.apache.org/viewvc/maven'
         }
     }
 
 }
 
 
-task travisBuild(dependsOn: ['clean', 'test','build', 'publish']) {}
+task travisBuild(dependsOn: ['clean', 'test', 'build', 'publish']) {}
