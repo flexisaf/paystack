@@ -8,13 +8,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 
 public class TransactionJson {
-
-
     private String reference;
-    private String amount;
+    @JsonProperty("amount")
+    private Double amount;
     private String email;
     @JsonProperty("callback_url")
     private String callbackUrl;
+    @JsonProperty("plan")
+    private String plan;
+    @JsonProperty("transaction_charge")
+    private Integer transactionCharge;
+
+
+    public Integer getTransactionCharge() {
+        return transactionCharge;
+    }
+
+    public void setTransactionCharge(Integer transactionCharge) {
+        this.transactionCharge = transactionCharge;
+    }
 
     public String getReference() {
         return this.reference;
@@ -24,11 +36,12 @@ public class TransactionJson {
         this.reference = ref;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
-    public String geAmount() {
+    @JsonProperty("amount")
+    public Double geAmount() {
         return this.amount;
     }
 
@@ -38,5 +51,13 @@ public class TransactionJson {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPlan() {
+        return plan;
+    }
+
+    public void setPlan(String plan) {
+        this.plan = plan;
     }
 }

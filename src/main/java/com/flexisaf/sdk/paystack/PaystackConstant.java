@@ -1,4 +1,4 @@
-package com.flexisaf.sdk.paystack.utils;
+package com.flexisaf.sdk.paystack;
 
 /**
  * Created by iroko on 12/15/16.
