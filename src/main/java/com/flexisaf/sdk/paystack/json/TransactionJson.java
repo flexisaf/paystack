@@ -1,6 +1,8 @@
 package com.flexisaf.sdk.paystack.json;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * @author peter
  */
@@ -10,7 +12,8 @@ public class TransactionJson {
 
     private String reference;
     private String amount;
-    private String customerEmail;
+    private String email;
+    @JsonProperty("callback_url")
     private String callbackUrl;
 
     public String getReference() {
@@ -29,11 +32,11 @@ public class TransactionJson {
         return this.amount;
     }
 
-    public String getCustomerEmail() {
-        return customerEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCustomerEmail(String customerEmail) {
-        this.customerEmail = customerEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
