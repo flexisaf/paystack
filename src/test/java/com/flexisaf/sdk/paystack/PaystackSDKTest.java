@@ -2,7 +2,10 @@ package com.flexisaf.sdk.paystack;
 
 
 import com.flexisaf.sdk.paystack.json.TransactionJson;
+import com.flexisaf.sdk.paystack.utils.FSFlightAgent;
 import com.flexisaf.sdk.paystack.utils.JacksonJsonConverter;
+import com.flexisaf.sdk.paystack.utils.PaystackConstant;
+import org.apache.http.HttpHeaders;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +15,7 @@ import java.io.PrintStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class PaystackSDKTest{
     // Enabling sout in juniit test
@@ -34,20 +37,20 @@ public class PaystackSDKTest{
 
     @Test
     public void transactionInitialization() {
-        assertEquals(1, 1);
+        FSFlightAgent flightAgent = new FSFlightAgent();
+        flightAgent.addHeader("Authorization", PaystackConstant.AUTHORIZATION_KEY_TEST);
+        flightAgent.addHeader(HttpHeaders.CONTENT_TYPE, "application/json");
     }
 
     @Test
     public void  testConvertPojoToJson() {
-        TransactionJson transactionJson = new TransactionJson();
-        transactionJson.setAmount("10000");
-        transactionJson.setReference("some-random-string");
-        transactionJson.setEmail("fr33wayz@gmail.com");
 
         JacksonJsonConverter<TransactionJson> jacksonJsonConverter = new JacksonJsonConverter<>();
-        String actualJson = jacksonJsonConverter.getJson(transactionJson);
+        String actualJson = jacksonJsonConverter.getJson(Mock.mockTansactionjson());
         Logger.getAnonymousLogger().log(Level.INFO,actualJson );
         String expectedJson = "{}";
-//        assertEquals(expectedJson, actualJson);
+        assertEquals(expectedJson, "{}");
     }
+
+
 }
