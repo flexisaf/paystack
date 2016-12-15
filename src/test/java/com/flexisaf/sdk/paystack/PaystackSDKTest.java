@@ -2,9 +2,10 @@ package com.flexisaf.sdk.paystack;
 
 
 import com.flexisaf.sdk.paystack.json.TransactionJson;
-import com.flexisaf.sdk.paystack.utils.FSFlightAgent;
-import com.flexisaf.sdk.paystack.utils.JacksonJsonConverter;
-import com.flexisaf.sdk.paystack.utils.PaystackConstant;
+import com.flexisaf.sdk.paystack.json.TransactionResponse;
+import com.flexisaf.sdk.paystack.http.FSFlightAgent;
+import com.flexisaf.sdk.paystack.http.JacksonJsonConverter;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.junit.After;
 import org.junit.Before;
@@ -36,10 +37,20 @@ public class PaystackSDKTest{
     }
 
     @Test
-    public void transactionInitialization() {
-        FSFlightAgent flightAgent = new FSFlightAgent();
+    public void testThatTransactionGetInitialized()  throws Exception{
+        FSFlightAgent<TransactionJson> flightAgent = new FSFlightAgent<>();
         flightAgent.addHeader("Authorization", PaystackConstant.AUTHORIZATION_KEY_TEST);
         flightAgent.addHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+        HttpEntity response = flightAgent.httpPost(PaystackConstant.INITIALIZING_URL, Mock.mockTansactionjson());
+
+        JacksonJsonConverter<TransactionResponse> responseJacksonJsonConverter
+                = new JacksonJsonConverter<>();
+            TransactionResponse transactionResponse =
+                    responseJacksonJsonConverter.getPojoFromJson(response.getContent(), TransactionResponse.class);
+            String expectedMessage = "Authorization URL created";
+            assertEquals(transactionResponse.isSuccessfull(), true);
+            assertEquals(expectedMessage, transactionResponse.getMessage());
+
     }
 
     @Test

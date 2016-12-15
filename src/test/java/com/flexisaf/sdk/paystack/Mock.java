@@ -11,7 +11,7 @@ public class Mock{
 
     public static TransactionJson mockTansactionjson() {
         TransactionJson transactionJson = new TransactionJson();
-        transactionJson.setAmount("10000");
+        transactionJson.setAmount(10000.0);
         transactionJson.setReference(UUID.randomUUID().toString());
         transactionJson.setEmail("fr33wayz@gmail.com");
         return transactionJson;
