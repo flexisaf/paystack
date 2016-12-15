@@ -1,10 +1,12 @@
 package com.flexisaf.sdk.paystack.json;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by peter on 12/15/16.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TransactionResponse{
 
     private boolean status;
@@ -21,6 +23,7 @@ public class TransactionResponse{
         this.message = message;
     }
 
+    @JsonProperty("data")
     public TransactionData getTransactionData() {
         return transactionData;
     }

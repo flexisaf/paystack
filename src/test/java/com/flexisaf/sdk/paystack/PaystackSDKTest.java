@@ -1,12 +1,9 @@
 package com.flexisaf.sdk.paystack;
 
 
+import com.flexisaf.sdk.paystack.http.JacksonJsonConverter;
 import com.flexisaf.sdk.paystack.json.TransactionJson;
 import com.flexisaf.sdk.paystack.json.TransactionResponse;
-import com.flexisaf.sdk.paystack.http.FSFlightAgent;
-import com.flexisaf.sdk.paystack.http.JacksonJsonConverter;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHeaders;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,9 +13,9 @@ import java.io.PrintStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-public class PaystackSDKTest{
+public class PaystackSDKTest {
     // Enabling sout in juniit test
     //http://stackoverflow.com/questions/1119385/junit-test-for-system-out-println
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -37,31 +34,35 @@ public class PaystackSDKTest{
     }
 
     @Test
-    public void testThatTransactionGetInitialized()  throws Exception{
-        FSFlightAgent<TransactionJson> flightAgent = new FSFlightAgent<>();
-        flightAgent.addHeader("Authorization", PaystackConstant.AUTHORIZATION_KEY_TEST);
-        flightAgent.addHeader(HttpHeaders.CONTENT_TYPE, "application/json");
-        HttpEntity response = flightAgent.httpPost(PaystackConstant.INITIALIZING_URL, Mock.mockTansactionjson());
-
-        JacksonJsonConverter<TransactionResponse> responseJacksonJsonConverter
-                = new JacksonJsonConverter<>();
-            TransactionResponse transactionResponse =
-                    responseJacksonJsonConverter.getPojoFromJson(response.getContent(), TransactionResponse.class);
-            String expectedMessage = "Authorization URL created";
-            assertEquals(transactionResponse.isSuccessfull(), true);
-            assertEquals(expectedMessage, transactionResponse.getMessage());
+    public void testThatTransactionGetInitialized() throws Exception {
+        PaystackTransaction paystackTransaction = new PaystackTransaction();
+        TransactionResponse transactionResponse = paystackTransaction.initializeTransaction(Mock.mockTansactionjson());
+        assertEquals(transactionResponse.isSuccessfull(), true);
+        String expectedMessage = "Authorization URL created";
+        assertEquals(expectedMessage, transactionResponse.getMessage());
 
     }
 
     @Test
-    public void  testConvertPojoToJson() {
+    public void testConvertPojoToJson() {
 
         JacksonJsonConverter<TransactionJson> jacksonJsonConverter = new JacksonJsonConverter<>();
         String actualJson = jacksonJsonConverter.getJson(Mock.mockTansactionjson());
-        Logger.getAnonymousLogger().log(Level.INFO,actualJson );
+        Logger.getAnonymousLogger().log(Level.INFO, actualJson);
         String expectedJson = "{}";
         assertEquals(expectedJson, "{}");
     }
 
+    @Test
+    public void testTransactionVerification() {
+        PaystackTransaction paystackTransaction = new PaystackTransaction();
+        TransactionResponse transactionResponse = paystackTransaction.initializeTransaction(Mock.mockTansactionjson());
+        assertEquals(transactionResponse.isSuccessfull(), true);
+        String expectedMessage = "Authorization URL created";
+        assertEquals(expectedMessage, transactionResponse.getMessage());
+        String transactionRef = transactionResponse.getTransactionData().getReference();
+        TransactionResponse verificationResponse = paystackTransaction.verifyTransaction(transactionRef, PaystackConstant.AUTHORIZATION_KEY_TEST);
+        assertEquals(verificationResponse.isSuccessfull(), true);
+    }
 
 }
