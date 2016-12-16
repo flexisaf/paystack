@@ -1,11 +1,5 @@
 language : java
 
-sudo: false
-addons:
-  apt:
-    packages:
-      - oracle-java8-installer
-
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -15,4 +9,11 @@ cache:
     - $HOME/.gradle/wrapper/
 
 script:
-  - /gradlew travisbuild
+  - jdk_switcher use oraclejdk8
+  - /gradlew check
+branches:
+  only:
+  - master
+  script:
+    - jdk_switcher use oraclejdk8
+    - /gradlew travisbuild
