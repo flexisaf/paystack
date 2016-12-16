@@ -8,12 +8,6 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 
-#before_script: .travis/setup.sh
-#script: .travis/build.sh
-
-script:
-  - jdk_switcher use oraclejdk8
-  - ./gradlew check test
 
 branches:
   master:
@@ -23,3 +17,12 @@ branches:
   develop:
     script:
       - echo $PATH
+
+#before_script: .travis/setup.sh
+#script: .travis/build.sh
+
+script:
+  - jdk_switcher use oraclejdk8
+  - ./gradlew check test
+
+
