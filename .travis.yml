@@ -10,10 +10,10 @@ cache:
 
 script:
   - jdk_switcher use oraclejdk8
-  - /gradlew check
+  - ./gradlew check
 branches:
   only:
   - master
   script:
     - jdk_switcher use oraclejdk8
-    - /gradlew travisbuild
+    - ./gradlew travisbuild
