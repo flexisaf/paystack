@@ -5,7 +5,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'maven'
 
 group = 'com.flexisaf.sdk.paystack'
-version = '1.1.0'
+version = '1.1.0-SNAPSHOT'
 repositories {
     jcenter()
     mavenLocal()
@@ -42,7 +42,7 @@ task sourcesJar(type: Jar) {
 }
 
 artifacts {
-    archives javadocJar, sourcesJar
+    archives  sourcesJar
 }
 
 task vscodeClasspathFile {
@@ -86,9 +86,9 @@ task vscode(dependsOn: vscodeJavaconfigFile) {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            groupId "com.flexisaf.sdk.paystack"
-            artifactId "paystack"
-            version "1.1.0"
+            groupId rootProject.group
+            artifactId project.name
+            version rootProject.version
             from components.java
         }
     }
@@ -99,7 +99,7 @@ publishing {
                 username System.env.MAVEN_USER
                 password System.env.MAVEN_PASSWORD
             }
-            url 'http://artifactory.flexisaf.com/artifactory/libs-release-local'
+            url 'http://artifactory.flexisaf.com/artifactory/libs-snapshot-local'
         }
     }
 }
