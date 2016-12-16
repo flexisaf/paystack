@@ -11,7 +11,9 @@ cache:
 
 
 before_script:  chmod +x travis/build.sh
-script: travis/build.sh
+script:
+  - jdk_switcher use oraclejdk8
+  - travis/build.sh
 
 
 
