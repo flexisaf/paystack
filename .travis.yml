@@ -10,7 +10,7 @@ cache:
 
 
 
-before_script:  chmod +x .travis/setup.sh
+before_script:  chmod +x .travis/build.sh
 script: .travis/build.sh
 
 
