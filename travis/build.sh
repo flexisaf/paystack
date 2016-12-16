@@ -1,7 +1,9 @@
 #!/bin/bash
 
-if [[ $TRAVIS_BRANCH == 'master' ]]
-  ./gradlew clean check test publish
-else
-  ./gradlew clean check test
+if [[ "$ENV" == 'master' ]];
+    echo "Herer"
+#  ./gradlew clean check test publish
+then
+    echo "Hey"
+#  ./gradlew clean check test
 fi
