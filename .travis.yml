@@ -8,12 +8,13 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 
+
+
+before_script:  chmod +x travis/build.sh
 script:
   - jdk_switcher use oraclejdk8
-  - ./gradlew check
-branches:
-  only:
-  - master
-  script:
-    - jdk_switcher use oraclejdk8
-    - ./gradlew travisbuild
+  - travis/build.sh
+
+
+
+
