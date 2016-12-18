@@ -13,6 +13,7 @@ import org.apache.http.message.BasicHeader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,6 +64,14 @@ public class FSFlightAgent<T> {
     public void addHeader(String name, String value) {
         Header header = new BasicHeader(name, value);
         headers.add(header);
+    }
+
+    public void addHeaders(Map<String, String> flighAgentHeader) {
+        if (flighAgentHeader != null && ! flighAgentHeader.isEmpty()) {
+            for (Map.Entry<String, String> stringStringEntry : flighAgentHeader.entrySet()) {
+                addHeader(stringStringEntry.getKey(), stringStringEntry.getValue());
+            }
+        }
     }
 
     private HttpEntity createJsonBody(T object) {

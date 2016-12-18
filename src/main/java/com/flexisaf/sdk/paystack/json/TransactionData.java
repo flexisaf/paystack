@@ -15,27 +15,35 @@ public class TransactionData {
     private String authorizationUrl;
     @JsonProperty("access_code")
     private String accessCode;
-    private String reference;
-    private String currency;
-    private String status;
-    private String metadata;
-    private String domain;
+    private String reference; //
+    private String currency;//
+    private String status; //
+    private Metadata metadata;//
+    private String domain; //
     @JsonProperty("gateway_response")
-    private String gatewayResponse;
-    private String message;
+    private String gatewayResponse;//
+    private String message;//
     @JsonProperty("ip_address")
-    private String ipAddress;
-    private Authorization authorization;
-    private Log log;
-    private String fee;
+    private String ipAddress; //
+    private Authorization authorization; //
+    private Log log; //
+    private String fees; //
     private Customer customer;
-    private String plan;
+    private String plan;//
     @JsonProperty("amount")
-    private Double amount;
+    private Double amount; //
     @JsonProperty("transaction_date")
-    private Date transactionDate;
+    private Date transactionDate; //
+    private String channel; //
 
 
+    public String getChannel() {
+        return channel;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
+    }
 
     public String getAccessCode() {
         return accessCode;
@@ -77,11 +85,11 @@ public class TransactionData {
         this.status = status;
     }
 
-    public String getMetadata() {
+    public Metadata getMetadata() {
         return metadata;
     }
 
-    public void setMetadata(String metadata) {
+    public void setMetadata(Metadata metadata) {
         this.metadata = metadata;
     }
 
@@ -133,12 +141,12 @@ public class TransactionData {
         this.log = log;
     }
 
-    public String getFee() {
-        return fee;
+    public String getFees() {
+        return fees;
     }
 
-    public void setFee(String fee) {
-        this.fee = fee;
+    public void setFees(String fees) {
+        this.fees = fees;
     }
 
     public Customer getCustomer() {

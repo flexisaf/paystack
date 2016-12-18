@@ -60,7 +60,7 @@ public class PaystackSDKTest {
         assertEquals(transactionResponse.isSuccessfull(), true);
         String expectedMessage = "Authorization URL created";
         assertEquals(expectedMessage, transactionResponse.getMessage());
-        String transactionRef = transactionResponse.getTransactionData().getReference();
+        String transactionRef = "T406914324592696";
         TransactionResponse verificationResponse = paystackTransaction.verifyTransaction(transactionRef, PaystackConstant.AUTHORIZATION_KEY_TEST);
         assertEquals(verificationResponse.isSuccessfull(), true);
     }
