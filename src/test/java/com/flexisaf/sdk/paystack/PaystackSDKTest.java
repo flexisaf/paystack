@@ -4,12 +4,15 @@ package com.flexisaf.sdk.paystack;
 import com.flexisaf.sdk.paystack.http.JacksonJsonConverter;
 import com.flexisaf.sdk.paystack.json.TransactionJson;
 import com.flexisaf.sdk.paystack.json.TransactionResponse;
+import org.apache.http.HttpHeaders;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,6 +66,19 @@ public class PaystackSDKTest {
         String transactionRef = "T406914324592696";
         TransactionResponse verificationResponse = paystackTransaction.verifyTransaction(transactionRef, PaystackConstant.AUTHORIZATION_KEY_TEST);
         assertEquals(verificationResponse.isSuccessfull(), true);
+    }
+
+    @Test
+    public void testThatInvalidAuthorizationKeyFails() {
+
+        PaystackTransaction paystackTransaction = new PaystackTransaction();
+        Map<String, String> headers = new HashMap<>();
+        headers.put(HttpHeaders.AUTHORIZATION, PaystackConstant.AUTHORIZATION_KEY_TEST + "jsflsdhf");
+        paystackTransaction.setPaymentHeader(headers);
+        TransactionResponse transactionResponse = paystackTransaction.initializeTransaction(Mock.mockTansactionjson());
+        assertEquals(transactionResponse.isSuccessfull(), false);
+        String expectedMessage = "Invalid key";
+        assertEquals(expectedMessage, transactionResponse.getMessage());
     }
 
 }
